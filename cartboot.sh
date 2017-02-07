@@ -1,0 +1,1 @@
+carthage bootstrap "$1" --no-use-binaries --platform ios
