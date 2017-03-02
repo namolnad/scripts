@@ -5,19 +5,19 @@ helpfunc() {
   echo "Help:
 
   ====================  Valid flags  ====================
-  -fp          Push to origin w/ --force-with-lease flag
+  -f           Push to origin w/ +$BRANCH
   -h           Displays this help dialog
   "
 }
 
-while getopts ":fp :h" opt; do
+while getopts ":f :h" opt; do
   case $opt in
-    fp)
-      $should_push=1
+    f)
+      should_push=1
       ;;
     h)
-	  helpfunc
-	  exit 1
+	    helpfunc
+	    exit 1
 	  ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -37,6 +37,8 @@ if [[ $should_push -eq 1 ]]; then
     echo "Saw a conflict marker in $(git rev-parse HEAD)" >&2
     exit 1
   else
-    git push --force-with-lease origin $current_branch
+    git push origin +$current_branch
   fi
+else
+  echo "No push performed"
 fi
