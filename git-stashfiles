@@ -1,0 +1,92 @@
+ #!/usr/bin/env bash
+
+# Shows the usage
+function usage() {
+  cat <<EOS
+Usage:
+  git stashfiles [-v] <file-names>
+
+  -v      - Verbose: displays all output from internal commands
+  -h      - Display this help screen
+
+git stashfiles is meant to help you stash a file or set of individual files 
+from a larger change set. Especially useful when git stash -p is too cumbersome 
+(perhaps in a large changeset) and you want to specify exactly which files you stash
+
+Examples:
+  git stashfiles -v /Project/Files/Random_file.txt /Project/OtherDir/Other_file.swift
+EOS
+}
+
+ # Options parsing
+####################################################################################
+
+verbose=
+help_command=
+
+case "$1" in
+-v) verbose=1 ;;
+-h) help_command=1 ;;
+esac
+
+if [ "$help_command" = 1 ]; then
+  usage
+  exit 0
+fi
+
+ # Main script
+####################################################################################
+
+# Turn all arguments into a space-separated string, removing verbose flag
+stash_files="$(echo "$*" | sed "s|-v ||g")"
+stash_files_array=($stash_files)
+
+count=${#stash_files_array[@]}
+
+file_noun=
+case "$count" in
+ 0) echo "Aborting... \nZero filename arguments received. Enter 'git stashfiles -h' for usage instructions"; exit 1; ;;
+ 1) file_noun='file' ;;
+ *) file_noun='files' ;;
+esac
+
+echo "Stashing $count $file_noun"
+
+# If NOT verbose ignore all internal output
+if [ "$verbose" != 1 ]; then
+  exec 5>&1 >/dev/null
+fi
+
+# Save everything. Then re-apply, but keep the stash
+git stash
+git stash apply
+
+# Get names of all newly stashed files and space separate them
+not_stash_files=$(git stash show --name-only | cat | tr '\n' ' ')
+
+# Iterate through stash_files and remove names for files we want to keep unstashed
+for file_name in ${stash_files_array[@]}; do
+  not_stash_files=$(echo $not_stash_files | sed "s|$file_name||g")
+done
+not_stash_files_array=($not_stash_files)
+
+# Checkout all files we don't want to stash
+git checkout ${not_stash_files_array[@]}
+
+# Save only the things you wanted saved
+git stash
+
+# Re-apply the original state and drop it from your stash
+git stash apply stash@{1}
+git stash drop stash@{1}
+
+# Checkout the stashed files, leaving all else
+git checkout ${stash_files_array[@]}
+
+
+if [ "$verbose" != 1 ]; then
+  exec 1>&5
+fi
+
+echo "Stashed: $stash_files"
+
