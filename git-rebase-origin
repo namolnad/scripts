@@ -1,5 +1,6 @@
 #!/bin/bash
-should_push=0
+
+should_push=
 
 helpfunc() {
   echo "Help:
@@ -12,17 +13,9 @@ helpfunc() {
 
 while getopts ":f :h" opt; do
   case $opt in
-    f)
-      should_push=1
-      ;;
-    h)
-	    helpfunc
-	    exit 1
-	  ;;
-    \?)
-      echo "Invalid option: -$OPTARG" >&2
-      exit 1
-      ;;
+    f) should_push=1 ;;
+    h) helpfunc; exit 0; ;;
+    \?) echo "Invalid option: -$OPTARG" >&2 ; exit 1 ;;
   esac
 done
 
@@ -40,5 +33,5 @@ if [[ $should_push -eq 1 ]]; then
     git push origin +$current_branch
   fi
 else
-  echo "No push performed"
+  echo 'No push performed'
 fi
