@@ -1,32 +1,36 @@
- #!/usr/bin/env bash
+#!/usr/bin/env bash
 
 # Shows the usage
 function usage() {
   cat <<EOS
 Usage:
-  git stashfiles [-v] <file-names>
+  git stashfiles [-i] [-v] [-h] <file-names>
 
-  -v      - Verbose: displays all output from internal commands
+  -i      - Stash all files in current index; Ignores additional arguments
+  -v      - Verbose
   -h      - Display this help screen
+
 
 git stashfiles is meant to help you stash a file or set of individual files 
 from a larger change set. Especially useful when git stash -p is too cumbersome 
 (perhaps in a large changeset) and you want to specify exactly which files you stash
 
 Examples:
-  git stashfiles -v /Project/Files/Random_file.txt /Project/OtherDir/Other_file.swift
+  git stashfiles -v Project/Files/Random_file.txt Project/OtherDir/Other_file.swift
 EOS
 }
 
  # Options parsing
 ####################################################################################
 
-verbose=
 help_command=
+indexed=
+verbose=
 
 case "$1" in
--v) verbose=1 ;;
 -h) help_command=1 ;;
+-i) indexed=1 ;;
+-v) verbose=1 ;;
 esac
 
 if [ "$help_command" = 1 ]; then
@@ -38,14 +42,22 @@ fi
 ####################################################################################
 
 # Turn all arguments into a space-separated string, removing verbose flag
-stash_files="$(echo "$*" | sed "s|-v ||g")"
+stash_files=
+
+# If indexed, stash all files in current index
+if [ "$indexed" = 1 ]; then
+  stash_files="$(git diff --cached --name-only | cat | tr '\n' ' ')"
+else
+  stash_files="$(echo "$*" | sed "s|-v ||g")"
+fi
+
 stash_files_array=($stash_files)
 
 count=${#stash_files_array[@]}
 
 file_noun=
 case "$count" in
- 0) echo "Aborting... \nZero filename arguments received. Enter 'git stashfiles -h' for usage instructions"; exit 1; ;;
+ 0) echo $'Aborting... \nZero filename arguments received. Enter 'git stashfiles -h' for usage instructions'; exit 1; ;;
  1) file_noun='file' ;;
  *) file_noun='files' ;;
 esac
