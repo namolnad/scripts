@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>AMApplicationBuild</key>
-	<string>428</string>
+	<string>444.4</string>
 	<key>AMApplicationVersion</key>
-	<string>2.7</string>
+	<string>2.8</string>
 	<key>AMDocumentVersion</key>
 	<string>2</string>
 	<key>actions</key>
@@ -119,7 +119,7 @@
 					<string>~/Desktop</string>
 				</dict>
 				<key>BundleIdentifier</key>
-				<string>com.apple.Automator.Find_Finder_Items_2</string>
+				<string>com.apple.Automator.FindFinderItems2</string>
 				<key>CFBundleVersion</key>
 				<string>2.1.1</string>
 				<key>CanShowSelectedItemsWhenRun</key>
@@ -252,7 +252,7 @@
 					<string>3B88B87D-5E82-48B3-991C-C4B31BFA60F1</string>
 				</dict>
 				<key>BundleIdentifier</key>
-				<string>com.apple.Automator.Set_Value_of_Variable</string>
+				<string>com.apple.Automator.SetValueofVariable</string>
 				<key>CFBundleVersion</key>
 				<string>1.0.2</string>
 				<key>CanShowSelectedItemsWhenRun</key>
@@ -460,7 +460,7 @@ end run</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
-					<string>myvar="$HOME/screenshots/$(date +%Y)/$(date +%m)/$(date +%d)/manual-shots"; mkdir -p "${myvar}"; cd "${myvar}"; pwd</string>
+					<string>myvar="$HOME/Documents-local/Screenshots/$(date +%Y)/$(date +%m)/$(date +%d)/manual-shots"; mkdir -p "${myvar}"; cd "${myvar}"; pwd</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
 					<key>inputMethod</key>
@@ -635,7 +635,7 @@ end run</string>
 					<string>9EF7B453-78D8-4EEB-B7E8-1573E1090AAC</string>
 				</dict>
 				<key>BundleIdentifier</key>
-				<string>com.apple.Automator.Set_Value_of_Variable</string>
+				<string>com.apple.Automator.SetValueofVariable</string>
 				<key>CFBundleVersion</key>
 				<string>1.0.2</string>
 				<key>CanShowSelectedItemsWhenRun</key>
@@ -745,7 +745,7 @@ end run</string>
 					<string>3B88B87D-5E82-48B3-991C-C4B31BFA60F1</string>
 				</dict>
 				<key>BundleIdentifier</key>
-				<string>com.apple.Automator.Get_Value_of_Variable</string>
+				<string>com.apple.Automator.GetValueofVariable</string>
 				<key>CFBundleVersion</key>
 				<string>1.0.2</string>
 				<key>CanShowSelectedItemsWhenRun</key>
@@ -933,47 +933,47 @@ end run</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>211FA2DA-91A7-4FC2-9B9A-D70E22B1C9E3</key>
+		<key>560097B0-F768-43FE-9546-4B11998D68A8</key>
 		<dict>
 			<key>from</key>
 			<string>E106B4E5-2AEA-4A94-A13E-941B626B8323 - E106B4E5-2AEA-4A94-A13E-941B626B8323</string>
 			<key>to</key>
 			<string>6A798AF0-5CA5-410B-A8CE-1ACC3B3B68C5 - 6A798AF0-5CA5-410B-A8CE-1ACC3B3B68C5</string>
 		</dict>
-		<key>4FF78B9E-858F-43F6-A66D-D7A5717B0FB0</key>
-		<dict>
-			<key>from</key>
-			<string>FF6BA3E9-B14A-4306-A46D-16E06EFD1D16 - FF6BA3E9-B14A-4306-A46D-16E06EFD1D16</string>
-			<key>to</key>
-			<string>E106B4E5-2AEA-4A94-A13E-941B626B8323 - E106B4E5-2AEA-4A94-A13E-941B626B8323</string>
-		</dict>
-		<key>AB2A2BC5-172E-4CB5-930B-913A4ECB9259</key>
+		<key>661AE59B-BCD4-41CA-8649-500EC57E4018</key>
 		<dict>
 			<key>from</key>
 			<string>6A798AF0-5CA5-410B-A8CE-1ACC3B3B68C5 - 6A798AF0-5CA5-410B-A8CE-1ACC3B3B68C5</string>
 			<key>to</key>
 			<string>8589137F-AB95-455C-BB43-77A63B3DA6AD - 8589137F-AB95-455C-BB43-77A63B3DA6AD</string>
 		</dict>
-		<key>D7ACCC06-7F39-42C7-989F-096AEBF455CC</key>
+		<key>69B645F9-EF88-43CD-8299-6313648FEEC1</key>
 		<dict>
 			<key>from</key>
 			<string>8589137F-AB95-455C-BB43-77A63B3DA6AD - 8589137F-AB95-455C-BB43-77A63B3DA6AD</string>
 			<key>to</key>
 			<string>9D5508EF-E123-4C77-8D8A-CF82370DE55A - 9D5508EF-E123-4C77-8D8A-CF82370DE55A</string>
 		</dict>
-		<key>E1D3C12C-6949-4313-8546-570E4C2243B8</key>
+		<key>80D381D7-4ECC-4468-BFB6-5D7CB766EEFA</key>
+		<dict>
+			<key>from</key>
+			<string>9D5508EF-E123-4C77-8D8A-CF82370DE55A - 9D5508EF-E123-4C77-8D8A-CF82370DE55A</string>
+			<key>to</key>
+			<string>7282537E-731F-49C4-9D81-2DA88EFA8E32 - 7282537E-731F-49C4-9D81-2DA88EFA8E32</string>
+		</dict>
+		<key>F680E2BB-F00E-4C35-873B-5BF08C3A4364</key>
 		<dict>
 			<key>from</key>
 			<string>A17F7A07-9C70-47E3-926A-963C515DC1C4 - A17F7A07-9C70-47E3-926A-963C515DC1C4</string>
 			<key>to</key>
 			<string>FF6BA3E9-B14A-4306-A46D-16E06EFD1D16 - FF6BA3E9-B14A-4306-A46D-16E06EFD1D16</string>
 		</dict>
-		<key>E2390EE3-7FB1-46CE-8774-432A9CF9C62C</key>
+		<key>FFB3A02D-2D05-4A78-86DF-6F559EF7F3B0</key>
 		<dict>
 			<key>from</key>
-			<string>9D5508EF-E123-4C77-8D8A-CF82370DE55A - 9D5508EF-E123-4C77-8D8A-CF82370DE55A</string>
+			<string>FF6BA3E9-B14A-4306-A46D-16E06EFD1D16 - FF6BA3E9-B14A-4306-A46D-16E06EFD1D16</string>
 			<key>to</key>
-			<string>7282537E-731F-49C4-9D81-2DA88EFA8E32 - 7282537E-731F-49C4-9D81-2DA88EFA8E32</string>
+			<string>E106B4E5-2AEA-4A94-A13E-941B626B8323 - E106B4E5-2AEA-4A94-A13E-941B626B8323</string>
 		</dict>
 	</dict>
 	<key>variables</key>
