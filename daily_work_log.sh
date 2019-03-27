@@ -9,6 +9,7 @@ clear
 echo "\nDaily Journal Entry"
 date "+DATE: %Y-%m-%d, %H:%M:%S%n"
 
+user_first_name='Dan'
 # List of questions
 first_question="What did you work on today?"
 second_question="What went well?"
@@ -17,7 +18,7 @@ fourth_question="Did you learn anything? Unexpected or otherwise? (Don't always 
 fifth_question="Anything else of note you'd like to mention?"
 
 # Ask the day's questions
-echo "Hey, ${USER_FIRST_NAME}. ${first_question}\n"
+echo "Hey, ${user_first_name}. ${first_question}\n"
 read todays_work
 
 echo "\n\_(ツ)_/ \nOkie Dokie. ${second_question}\n"
