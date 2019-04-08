@@ -84,7 +84,7 @@ setup_ruby_environment() {
 }
 
 setup_vim() {
-    # TODO: Evaluate whether MacVim should be used (and remove vim from Brewfile is so)
+    # TODO: Evaluate whether MacVim should be used along with iCompleteMe (and remove vim from Brewfile is so)
     # MacVim install
     # Move mvim script to /usr/local/bin
     # Symlink mvim script to vim
