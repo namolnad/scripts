@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+
+install_homebrew() {
+    echo 'Installing homebrew'
+    command -v brew > /dev/null 2>&1 || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)";
+}
+
+setup_ruby() {
+    brew install rbenv
+    rbenv install -s $(cat ~/.rbenv/version)
+    eval "$(rbenv init -)"
+}
+
+install_bundler() {
+    echo 'Installing bundler'
+    gem install bundler
+    rbenv rehash
+}
+
+install_gems() {
+    echo 'Installing gems'
+    bundle install
+}
+
+install_brewfile_dependencies() {
+    brew bundle
+}
+
+install_fzf() {
+    $(brew --prefix)/opt/fzf/install
+}
+
+clone_dev_environment() {
+    # Clone my dev environment
+}
+
+setup_vim() {
+    # MacVim install
+    # Move mvim script to /usr/local/bin
+    # Symlink mvim script to vim
+    #####
+    # Install plugins
+    vim -c 'PluginInstall' -c 'qa!'
+}
+
+    # Install TabNine (also for vscode)
+install_automator_tasks() {
+    # Install tasks from Dans-scripts
+}
+
+init_submodules() {
+    ## Initialize all submodules
+    echo 'Initializing all submodules'
+    git submodule update --init --recursive
+    git pull --recurse-sumodules
+}
+
+symlink_customizations() {
+    ln -fs $HOME/.bashrc.symlink $HOME/.bashrc
+    ln -fs $HOME/.bash_profile.symlink $HOME/.bash_profile
+    ln -fs $HOME/.omz_custom.symlink $HOME/.oh-my-zsh/custom
+    ln -fs $HOME/.vim.symlink $HOME/.vim
+    ln -fs $HOME/.vimrc.symlink $HOME/.vimrc
+    ln -fs $HOME/.xvimrc.symlink $HOME/.xvimrc
+    ln -fs $HOME/.zshrc.symlink $HOME/.zshrc
+}
+
+adjust_keyboard_speed() {
+    echo "Setting up keyboard repeat rate:"
+    # normal minimum is 15 (225 ms)
+    defaults write -g InitialKeyRepeat -int 13
+    # normal minimum is 2 (30 ms)
+    defaults write -g KeyRepeat -int 1
+}
+
+create_custom_creds_dir() {
+    echo 'Create custom_credentials directory (if not exists)'
+    mkdir ~/.custom_credentials
+}
+
+display_manual_tasks_remaining() {
+    echo """
+    Tasks remaining:
+    1) Ensure Dropbox syncing is set up
+    2) Point development application settings to \"$$HOME/Dropbox/.dev_sync\"
+    3) Grant full disk access to Alfred
+    4) Download latest Pock release: https://github.com/pigigaldi/Pock/releases
+    """
+}
+
+# Bootstrap
+echo 'Bootstrapping machine'
+
+install_homebrew
+setup_ruby
+install_bundler
+install_gems
+install_brewfile_dependencies
+install_fzf
+setup_keyboard_speed
+init_submodules
+setup_custom_creds
+display_manual_tasks_remaining
+
