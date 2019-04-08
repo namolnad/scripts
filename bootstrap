@@ -39,8 +39,7 @@ display_manual_tasks_remaining() {
 
 init_submodules() {
     echo 'Initializing all submodules'
-    git submodule update --init --recursive
-    git pull --recurse-sumodules
+    git submodule update --init --recursive --remote
 }
 
 install_automator_tasks() {
