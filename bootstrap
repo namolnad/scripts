@@ -1,58 +1,94 @@
 #!/usr/bin/env bash
 
-install_homebrew() {
-    echo 'Installing homebrew'
-    command -v brew > /dev/null 2>&1 || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)";
+adjust_keyboard_speed() {
+    echo 'Setting up keyboard repeat rate:'
+    # normal minimum is 15 (225 ms)
+    defaults write -g InitialKeyRepeat -int 13
+    # normal minimum is 2 (30 ms)
+    defaults write -g KeyRepeat -int 1
 }
 
-setup_ruby() {
+clone_dev_environment() {
+    echo "Cloning dev environment into $HOME"
+    cd $HOME
+    if [ $(git rev-parse --is-inside-work-tree) ]; then
+        return
+    fi
+    git init
+    git remote add origin https://github.com/namolnad/dev-environment.git
+    git fetch origin
+    git checkout -b master --track origin/master
+    cd -
+}
+
+create_directories() {
+    echo 'Create custom_credentials directory (if not exists)'
+    mkdir $HOME/.custom_credentials
+    mkdir $HOME/Code
+}
+
+display_manual_tasks_remaining() {
+    echo """
+    Tasks remaining:
+    1) Ensure Dropbox syncing is set up
+    2) Point development application settings to \"$HOME/Dropbox/.dev_sync\"
+    3) Grant full disk access to Alfred
+    4) Download latest Pock release: https://github.com/pigigaldi/Pock/releases
+    """
+}
+
+init_submodules() {
+    echo 'Initializing all submodules'
+    git submodule update --init --recursive
+    git pull --recurse-sumodules
+}
+
+install_automator_tasks() {
+    echo 'Installing automator tasks'
+    # TODO: Install tasks from Dans-scripts
+}
+
+install_dependencies() {
+    echo 'Installing gems'
+    bundle install
+    echo 'Running brew bundle'
+    brew bundle
+    echo 'Installing FZF'
+    $(brew --prefix)/opt/fzf/install
+}
+
+install_homebrew() {
+    echo 'Checking if homebrew is installed'
+    if ! [ -x "$(command -v brew)" ]; then
+        echo 'Installing homebrew'
+        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    fi
+}
+
+setup_non_vim_editors() {
+    echo 'Installing TabNine for VSCode'
+    # TODO: Install TabNine (also for vscode)
+}
+
+setup_ruby_environment() {
+    echo 'Installing rbenv'
     brew install rbenv
+    echo 'Installing global ruby'
     rbenv install -s $(cat ~/.rbenv/version)
     eval "$(rbenv init -)"
-}
-
-install_bundler() {
     echo 'Installing bundler'
     gem install bundler
     rbenv rehash
 }
 
-install_gems() {
-    echo 'Installing gems'
-    bundle install
-}
-
-install_brewfile_dependencies() {
-    brew bundle
-}
-
-install_fzf() {
-    $(brew --prefix)/opt/fzf/install
-}
-
-clone_dev_environment() {
-    # Clone my dev environment
-}
-
 setup_vim() {
+    # TODO: Evaluate whether MacVim should be used (and remove vim from Brewfile is so)
     # MacVim install
     # Move mvim script to /usr/local/bin
     # Symlink mvim script to vim
     #####
     # Install plugins
     vim -c 'PluginInstall' -c 'qa!'
-}
-
-    # Install TabNine (also for vscode)
-install_automator_tasks() {
-    # Install tasks from Dans-scripts
-}
-
-init_submodules() {
-    ## Initialize all submodules
-    echo 'Initializing all submodules'
-    git submodule update --init --recursive
-    git pull --recurse-sumodules
 }
 
 symlink_customizations() {
@@ -65,40 +101,18 @@ symlink_customizations() {
     ln -fs $HOME/.zshrc.symlink $HOME/.zshrc
 }
 
-adjust_keyboard_speed() {
-    echo "Setting up keyboard repeat rate:"
-    # normal minimum is 15 (225 ms)
-    defaults write -g InitialKeyRepeat -int 13
-    # normal minimum is 2 (30 ms)
-    defaults write -g KeyRepeat -int 1
-}
-
-create_custom_creds_dir() {
-    echo 'Create custom_credentials directory (if not exists)'
-    mkdir ~/.custom_credentials
-}
-
-display_manual_tasks_remaining() {
-    echo """
-    Tasks remaining:
-    1) Ensure Dropbox syncing is set up
-    2) Point development application settings to \"$$HOME/Dropbox/.dev_sync\"
-    3) Grant full disk access to Alfred
-    4) Download latest Pock release: https://github.com/pigigaldi/Pock/releases
-    """
-}
-
-# Bootstrap
 echo 'Bootstrapping machine'
 
+# NOTE: Order is important
+create_directories
 install_homebrew
-setup_ruby
-install_bundler
-install_gems
-install_brewfile_dependencies
-install_fzf
-setup_keyboard_speed
+setup_ruby_environment
+install_dependencies
+clone_dev_environment
+symlink_customizations
 init_submodules
-setup_custom_creds
+adjust_keyboard_speed
+install_automator_tasks
+setup_non_vim_editors
 display_manual_tasks_remaining
 
