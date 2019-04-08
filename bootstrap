@@ -34,6 +34,8 @@ display_manual_tasks_remaining() {
     2) Point development application settings to \"$HOME/Dropbox/.dev_sync\"
     3) Grant full disk access to Alfred
     4) Download latest Pock release: https://github.com/pigigaldi/Pock/releases
+    5) Install GPG Suite; set up GPG signing
+    6) Set up SSH
     """
 }
 
