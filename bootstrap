@@ -54,7 +54,7 @@ install_dependencies() {
     echo 'Running brew bundle'
     brew bundle
     echo 'Installing FZF'
-    $(brew --prefix)/opt/fzf/install
+    yes | $(brew --prefix)/opt/fzf/install
 }
 
 install_homebrew() {
