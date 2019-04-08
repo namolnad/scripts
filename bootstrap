@@ -47,6 +47,7 @@ init_submodules() {
 install_automator_tasks() {
     echo 'Installing automator tasks'
     # TODO: Install tasks from Dans-scripts
+    # See https://apple.stackexchange.com/questions/343258/how-to-deploy-automator-workflow-to-clients for migration tactics
 }
 
 install_dependencies() {
