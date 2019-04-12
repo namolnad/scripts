@@ -95,7 +95,7 @@ setup_vim() {
 
 symlink_customizations() {
     # Remove existing directory symlinks if exists
-    rm .oh-my-zsh/custom .vim
+    rm -rf .oh-my-zsh/custom .vim
 
     # Setup symlinks
     ln -fs $HOME/.bashrc.symlink $HOME/.bashrc
