@@ -1,13 +1,5 @@
 #!/usr/bin/env bash
 
-adjust_keyboard_speed() {
-    echo 'Setting up keyboard repeat rate:'
-    # normal minimum is 15 (225 ms)
-    defaults write -g InitialKeyRepeat -int 13
-    # normal minimum is 2 (30 ms)
-    defaults write -g KeyRepeat -int 1
-}
-
 clone_dev_environment() {
     echo "Cloning dev environment into $HOME"
     cd $HOME
@@ -83,6 +75,10 @@ setup_ruby_environment() {
     rbenv rehash
 }
 
+setup_system_settings() {
+    $HOME/.macOS
+}
+
 setup_vim() {
     # TODO: Evaluate whether MacVim should be used along with iCompleteMe (and remove vim from Brewfile is so)
     # MacVim install
@@ -125,8 +121,8 @@ setup_ruby_environment
 install_dependencies
 symlink_customizations
 symlink_scripts
+setup_system_settings
 init_submodules
-adjust_keyboard_speed
 install_automator_tasks
 setup_non_vim_editors
 display_manual_tasks_remaining
