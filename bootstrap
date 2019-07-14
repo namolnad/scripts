@@ -107,6 +107,14 @@ symlink_customizations() {
     ln -fs $HOME/.zshrc.symlink $HOME/.zshrc
 }
 
+symlink_scripts() {
+    script_home=$HOME/Code/Scripts
+    destination=/usr/local/bin
+
+    ln -s $script_home/git-stashfiles $destination
+    ln -s $script_home/git-rebase-origin $destination
+}
+
 echo 'Bootstrapping machine'
 
 # NOTE: Order is important
@@ -116,6 +124,7 @@ install_homebrew
 setup_ruby_environment
 install_dependencies
 symlink_customizations
+symlink_scripts
 init_submodules
 adjust_keyboard_speed
 install_automator_tasks
