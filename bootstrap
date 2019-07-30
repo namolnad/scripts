@@ -59,6 +59,10 @@ install_homebrew() {
     fi
 }
 
+setup_git() {
+    git config --global url."git@github.com:".insteadOf "https://github.com/"
+}
+
 setup_non_vim_editors() {
     echo 'Installing TabNine for VSCode'
     # TODO: Install TabNine (also for vscode)
@@ -115,6 +119,7 @@ echo 'Bootstrapping machine'
 
 # NOTE: Order is important
 create_directories
+setup_git
 clone_dev_environment
 install_homebrew
 setup_ruby_environment
