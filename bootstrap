@@ -7,7 +7,7 @@ clone_dev_environment() {
         return
     fi
     git init
-    git remote add origin https://github.com/namolnad/dev-environment.git
+    git remote add origin ssh://git@github.com:namolnad/dev-environment.git
     git fetch origin
     git checkout -b master --track origin/master
     cd -
@@ -57,10 +57,6 @@ install_homebrew() {
         echo 'Installing homebrew'
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
-}
-
-setup_git() {
-    git config --global url."git@github.com:".insteadOf "https://github.com/"
 }
 
 setup_non_vim_editors() {
@@ -119,7 +115,6 @@ echo 'Bootstrapping machine'
 
 # NOTE: Order is important
 create_directories
-setup_git
 clone_dev_environment
 install_homebrew
 setup_ruby_environment
