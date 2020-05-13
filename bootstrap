@@ -101,6 +101,7 @@ symlink_customizations() {
     ln -fs $HOME/.vimrc.symlink $HOME/.vimrc
     ln -fs $HOME/.xvimrc.symlink $HOME/.xvimrc
     ln -fs $HOME/.zshrc.symlink $HOME/.zshrc
+    ln -fs $HOME/.ripgreprc.symlink $HOME/.ripgreprc
 }
 
 symlink_scripts() {
