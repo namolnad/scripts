@@ -49,6 +49,8 @@ install_dependencies() {
     brew bundle
     echo 'Installing FZF'
     yes | $(brew --prefix)/opt/fzf/install
+    echo 'Installing Oh My Zsh'
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 
 install_homebrew() {
