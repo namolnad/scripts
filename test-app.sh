@@ -5,8 +5,8 @@ ide_path="$base_dir/build"
 project=Instacart.xcodeproj
 scheme=Instacart
 configuration=Debug
-simulator='iPhone 8'
-os=12.1
+simulator='iPhone 12 mini'
+os=14.1
 
 command="test"
 
