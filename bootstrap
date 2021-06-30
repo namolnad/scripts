@@ -115,7 +115,7 @@ symlink_scripts() {
 }
 
 symlink_binaries() {
-    ln -s $(xcrun --find sourcekit-lsp) /usr/local/bin/sourcekit-lsp
+    # ln -s $(xcrun --find sourcekit-lsp) /usr/local/bin/sourcekit-lsp
 }
 
 echo 'Bootstrapping machine'
