@@ -16,7 +16,7 @@ clone_dev_environment() {
 create_directories() {
     echo 'Create custom_credentials directory (if not exists)'
     mkdir $HOME/.custom_credentials
-    mkdir $HOME/Code
+    mkdir $HOME/Developer
 }
 
 display_manual_tasks_remaining() {
@@ -107,7 +107,7 @@ symlink_customizations() {
 }
 
 symlink_scripts() {
-    script_home=$HOME/Code/Scripts
+    script_home=$HOME/Developer/Scripts
     destination=/usr/local/bin
 
     ln -s $script_home/git-stashfiles $destination
