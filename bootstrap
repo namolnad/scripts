@@ -114,10 +114,6 @@ symlink_scripts() {
     ln -s $script_home/git-rebase-origin $destination
 }
 
-symlink_binaries() {
-    # ln -s $(xcrun --find sourcekit-lsp) /usr/local/bin/sourcekit-lsp
-}
-
 echo 'Bootstrapping machine'
 
 # NOTE: Order is important
@@ -132,5 +128,4 @@ setup_system_settings
 init_submodules
 install_automator_tasks
 setup_non_vim_editors
-symlink_binaries
 display_manual_tasks_remaining
