@@ -22,12 +22,11 @@ create_directories() {
 display_manual_tasks_remaining() {
     echo """
     Tasks remaining:
-    1) Ensure Dropbox syncing is set up
-    2) Point development application settings to \"$HOME/Dropbox/.dev_sync\"
-    3) Grant full disk access to Alfred
-    4) Download latest Pock release: https://github.com/pigigaldi/Pock/releases
+    1) Set up SSH (precursor to this script)
+    2) Ensure Dropbox syncing is set up
+    3) Point development application settings to \"$HOME/Dropbox/.dev_sync\"
+    4) Grant full disk access to Alfred
     5) Install GPG Suite; set up GPG signing
-    6) Set up SSH
     """
 }
 
