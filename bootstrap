@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
+export DEVELOPER_ENVIRONMENT=$HOME/Developer/Environment
+
 clone_dev_environment() {
-    echo "Cloning dev environment into $HOME"
-    cd $HOME
+    echo "Cloning dev environment into $DEVELOPER_ENVIRONMENT"
+    cd $DEVELOPER_ENVIRONMENT
     if [ $(git rev-parse --is-inside-work-tree) ]; then
         return
     fi
@@ -15,8 +17,7 @@ clone_dev_environment() {
 
 create_directories() {
     echo 'Create custom_credentials directory (if not exists)'
-    mkdir $HOME/.custom_credentials
-    mkdir $HOME/Developer
+    mkdir -p $DEVELOPER_ENIVRONMENT/.custom_credentials
 }
 
 display_manual_tasks_remaining() {
@@ -24,7 +25,7 @@ display_manual_tasks_remaining() {
     Tasks remaining:
     1) Set up SSH (precursor to this script)
     2) Ensure Dropbox syncing is set up
-    3) Point development application settings to \"$HOME/Dropbox/.dev_sync\"
+    3) Point development application settings to \"$DEVELOPER_ENVIRONMENT/Dropbox/.dev_sync\"
     4) Grant full disk access to Alfred
     5) Install GPG Suite; set up GPG signing
     """
@@ -79,7 +80,7 @@ setup_ruby_environment() {
 }
 
 setup_system_settings() {
-    $HOME/.macOS
+    $DEVELOPER_ENVIRONMENT/.macOS
 }
 
 setup_vim() {
@@ -94,17 +95,19 @@ setup_vim() {
 
 symlink_customizations() {
     # Remove existing directory symlinks if exists
-    rm -rf .oh-my-zsh/custom .vim
+    rm -rf .vim
 
     # Setup symlinks
-    ln -fs $HOME/.bashrc.symlink $HOME/.bashrc
-    ln -fs $HOME/.bash_profile.symlink $HOME/.bash_profile
-    ln -fs $HOME/.omz_custom.symlink $HOME/.oh-my-zsh/custom
-    ln -fs $HOME/.vim.symlink $HOME/.vim
-    ln -fs $HOME/.vimrc.symlink $HOME/.vimrc
-    ln -fs $HOME/.xvimrc.symlink $HOME/.xvimrc
-    ln -fs $HOME/.zshrc.symlink $HOME/.zshrc
-    ln -fs $HOME/.ripgreprc.symlink $HOME/.ripgreprc
+    ln -fs $DEVELOPER_ENVIRONMENT/.bashrc.symlink $HOME/.bashrc
+    ln -fs $DEVELOPER_ENVIRONMENT/.bash_profile.symlink $HOME/.bash_profile
+    ln -fs $DEVELOPER_ENVIRONMENT/.omz_custom.symlink $HOME/.oh-my-zsh/custom/loader.zsh
+    ln -fs $DEVELOPER_ENVIRONMENT/.oh-my-zsh/custom/themes $HOME/.oh-my-zsh/custom/themes
+    ln -fs $DEVELOPER_ENVIRONMENT/.oh-my-zsh/custom/plugins $HOME/.oh-my-zsh/custom/plugins
+    ln -fs $DEVELOPER_ENVIRONMENT/.vim.symlink $HOME/.vim
+    ln -fs $DEVELOPER_ENVIRONMENT/.vimrc.symlink $HOME/.vimrc
+    ln -fs $DEVELOPER_ENVIRONMENT/.xvimrc.symlink $HOME/.xvimrc
+    ln -fs $DEVELOPER_ENVIRONMENT/.zshrc.symlink $HOME/.zshrc
+    ln -fs $DEVELOPER_ENVIRONMENT/.ripgreprc.symlink $HOME/.ripgreprc
 }
 
 symlink_scripts() {
