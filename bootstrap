@@ -95,19 +95,22 @@ setup_vim() {
 
 symlink_customizations() {
     # Remove existing directory symlinks if exists
-    rm -rf $HOME/.oh-my-zsh/custom/themes $HOME/.oh-my-zsh/custom/plugins $HOME/.vim $HOME/Developer/Scripts
+    rm -rf $HOME/.vim $HOME/Developer/Scripts
+
+    mkdir -p $HOME/.oh-my-zsh/custom/themes
+    mkdir -p $HOME/.oh-my-zsh/custom/plugins
 
     # Setup symlinks
-    ln -fs $DEV_ENV/.bashrcsymlink $HOME/.bashrc
-    ln -fs $DEV_ENV/.bash_profilesymlink $HOME/.bash_profile
+    ln -fs $DEV_ENV/.bashrc $HOME/.bashrc
+    ln -fs $DEV_ENV/.bash_profile $HOME/.bash_profile
     ln -fs $DEV_ENV/.oh-my-zsh/custom/*.zsh $HOME/.oh-my-zsh/custom
     ln -fs $DEV_ENV/.oh-my-zsh/custom/themes/* $HOME/.oh-my-zsh/custom/themes
     ln -fs $DEV_ENV/.oh-my-zsh/custom/plugins/* $HOME/.oh-my-zsh/custom/plugins
-    ln -fs $DEV_ENV/.vimsymlink $HOME/.vim
-    ln -fs $DEV_ENV/.vimrcsymlink $HOME/.vimrc
-    ln -fs $DEV_ENV/.xvimrcsymlink $HOME/.xvimrc
-    ln -fs $DEV_ENV/.zshrcsymlink $HOME/.zshrc
-    ln -fs $DEV_ENV/.ripgreprcsymlink $HOME/.ripgreprc
+    ln -fs $DEV_ENV/.vim $HOME/.vim
+    ln -fs $DEV_ENV/.vimrc $HOME/.vimrc
+    ln -fs $DEV_ENV/.xvimrc $HOME/.xvimrc
+    ln -fs $DEV_ENV/.zshrc $HOME/.zshrc
+    ln -fs $DEV_ENV/.ripgreprc $HOME/.ripgreprc
     ln -fs $DEV_ENV/Scripts $HOME/Developer/Scripts
 }
 
