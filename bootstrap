@@ -71,6 +71,7 @@ setup_non_vim_editors() {
 setup_ruby_environment() {
     echo 'Installing rbenv'
     brew install rbenv
+    ln -fs $DEV_ENV/.rbenv/version $HOME/.rbenv
     echo 'Installing global ruby'
     rbenv install -s $(cat ~/.rbenv/version)
     eval "$(rbenv init -)"
