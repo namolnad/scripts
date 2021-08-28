@@ -108,6 +108,7 @@ symlink_customizations() {
     ln -fs $DEVELOPER_ENVIRONMENT/.xvimrc.symlink $HOME/.xvimrc
     ln -fs $DEVELOPER_ENVIRONMENT/.zshrc.symlink $HOME/.zshrc
     ln -fs $DEVELOPER_ENVIRONMENT/.ripgreprc.symlink $HOME/.ripgreprc
+    ln -fs $DEVELOPER_ENVIRONMENT/Scripts $HOME/Developer/Scripts
 }
 
 symlink_scripts() {
