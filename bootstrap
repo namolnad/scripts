@@ -70,6 +70,10 @@ prompt_sudo() {
     while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 }
 
+setup_git() {
+    ln -sf $DEV_ENV/.gitconfig $HOME/.gitconfig
+}
+
 setup_non_vim_editors() {
     echo 'Installing TabNine for VSCode'
     # TODO: Install TabNine (also for vscode)
@@ -85,6 +89,28 @@ setup_ruby_environment() {
     echo 'Installing bundler'
     gem install bundler
     rbenv rehash
+}
+
+setup_ssh() {
+    if [[ ! $(ls -A "$HOME/.ssh") ]]; then
+        ssh-keygen -t ed25519 -C $(git config --get user.email) -f "$HOME/.ssh/id_ed25519" -N ''
+        eval "$(ssh-agent -s)"
+        echo """Host *
+  AddKeysToAgent yes
+  IdentityFile ~/.ssh/id_ed25519""" > "$HOME/.ssh/config"
+        pbcopy < "$HOME/.ssh/id_ed25519.pub"
+        open -a Safari https://github.com/settings/keys
+        echo 'Your ssh public key has been copied to the keyboard. Confirm when you have entered the key in GitHub (y)'
+        while : ; do
+            read -n 1 k <&1
+            if [[ $k = y ]] ; then
+                printf "\nContinuing setup\n"
+                break
+            else
+                echo "Confirm when you have entered the key in GitHub"
+            fi
+        done
+    fi
 }
 
 setup_system_settings() {
@@ -134,6 +160,8 @@ echo 'Bootstrapping machine'
 
 # NOTE: Order is important
 prompt_sudo
+setup_git
+setup_ssh
 create_directories
 clone_dev_environment
 install_homebrew
