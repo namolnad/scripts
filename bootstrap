@@ -126,8 +126,8 @@ symlink_scripts() {
     script_home=$HOME/Developer/Scripts
     destination=/usr/local/bin
 
-    ln -s $script_home/git-stashfiles $destination
-    ln -s $script_home/git-rebase-origin $destination
+    ln -sf $script_home/git-stashfiles $destination
+    ln -sf $script_home/git-rebase-origin $destination
 }
 
 echo 'Bootstrapping machine'
