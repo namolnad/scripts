@@ -134,17 +134,13 @@ symlink_customizations() {
     mkdir -p $HOME/.oh-my-zsh/custom/plugins
 
     # Setup symlinks
-    ln -fs $DEV_ENV/.bashrc $HOME/.bashrc
-    ln -fs $DEV_ENV/.bash_profile $HOME/.bash_profile
+    ln -fs $DEV_ENV/.vim $HOME/.vim
+    ln -fs $DEV_ENV/Scripts $HOME/Developer/Scripts
     ln -fs $DEV_ENV/.oh-my-zsh/custom/*.zsh $HOME/.oh-my-zsh/custom
     ln -fs $DEV_ENV/.oh-my-zsh/custom/themes/* $HOME/.oh-my-zsh/custom/themes
     ln -fs $DEV_ENV/.oh-my-zsh/custom/plugins/* $HOME/.oh-my-zsh/custom/plugins
-    ln -fs $DEV_ENV/.vim $HOME/.vim
-    ln -fs $DEV_ENV/.vimrc $HOME/.vimrc
-    ln -fs $DEV_ENV/.xvimrc $HOME/.xvimrc
-    ln -fs $DEV_ENV/.zshrc $HOME/.zshrc
-    ln -fs $DEV_ENV/.ripgreprc $HOME/.ripgreprc
-    ln -fs $DEV_ENV/Scripts $HOME/Developer/Scripts
+    ln -fs $DEV_ENV/.bash_profile $HOME/.bash_profile
+    ln -fs $DEV_ENV/.*rc $HOME
 }
 
 symlink_scripts() {
