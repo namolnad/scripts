@@ -18,6 +18,10 @@ clone_dev_environment() {
 create_directories() {
     echo 'Create custom_credentials directory (if not exists)'
     mkdir -p $DEV_ENV/.custom_credentials
+    mkdir -p $HOME/.rbenv
+    mkdir -p $HOME/.ssh
+    mkdir -p $HOME/.oh-my-zsh/custom/themes
+    mkdir -p $HOME/.oh-my-zsh/custom/plugins
 }
 
 display_manual_tasks_remaining() {
@@ -92,7 +96,6 @@ setup_ruby_environment() {
 
 setup_ssh() {
     if [[ ! $(ls -A "$HOME/.ssh") ]]; then
-        mkdir -p "$HOME/.ssh"
         git_user=$(git config --get user.email)
         if [ -z "$git_user" ]; then read -r -p 'Enter your git email: ' git_user; fi
         ssh-keygen -t ed25519 -C "$git_user" -f "$HOME/.ssh/id_ed25519" -N ''
@@ -133,9 +136,6 @@ symlink_customizations() {
     # Remove existing directory symlinks if exists
     rm -rf $HOME/.vim $HOME/Developer/Scripts
 
-    mkdir -p $HOME/.oh-my-zsh/custom/themes
-    mkdir -p $HOME/.oh-my-zsh/custom/plugins
-
     # Setup symlinks
     ln -fs $DEV_ENV/.vim $HOME/.vim
     ln -fs $DEV_ENV/Scripts $HOME/Developer/Scripts
@@ -158,9 +158,9 @@ echo 'Bootstrapping machine'
 
 # NOTE: Order is important
 prompt_sudo
+create_directories
 setup_git
 setup_ssh
-create_directories
 clone_dev_environment
 install_homebrew
 setup_ruby_environment
