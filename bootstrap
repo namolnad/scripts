@@ -94,8 +94,8 @@ setup_ssh() {
     if [[ ! $(ls -A "$HOME/.ssh") ]]; then
         mkdir -p "$HOME/.ssh"
         git_user=$(git config --get user.email)
-        if [ -z "$git_user" ]; then read -r -p 'Enter your git email: '; fi
-        ssh-keygen -t ed25519 -C $(git config --get user.email) -f "$HOME/.ssh/id_ed25519" -N ''
+        if [ -z "$git_user" ]; then read -r -p 'Enter your git email: ' git_user; fi
+        ssh-keygen -t ed25519 -C "$git_user" -f "$HOME/.ssh/id_ed25519" -N ''
         eval "$(ssh-agent -s)"
         echo """Host *
   AddKeysToAgent yes
