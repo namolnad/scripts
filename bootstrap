@@ -165,10 +165,10 @@ create_directories
 setup_git
 setup_ssh
 clone_dev_environment
+symlink_customizations
 install_homebrew
 setup_ruby_environment
 install_dependencies
-symlink_customizations
 symlink_scripts
 setup_system_settings
 init_submodules
