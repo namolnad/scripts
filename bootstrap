@@ -54,8 +54,6 @@ install_dependencies() {
     yes | $(brew --prefix)/opt/fzf/install
     echo 'Installing Oh My Zsh'
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    echo 'Installing go jira'
-    sh -c 'go install github.com/go-jira/jira/cmd/jira@latest'
 }
 
 install_homebrew() {
@@ -151,10 +149,10 @@ symlink_customizations() {
 
 symlink_scripts() {
     script_home=$HOME/Developer/Scripts
-    destination=/usr/local/bin
+    destination=/usr/local/opt
 
-    ln -sf $script_home/git-stashfiles $destination
-    ln -sf $script_home/git-rebase-origin $destination
+    sudo ln -sf $script_home/git-stashfiles $destination
+    sudo ln -sf $script_home/git-rebase-origin $destination
 }
 
 echo 'Bootstrapping machine'
