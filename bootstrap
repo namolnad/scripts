@@ -151,8 +151,11 @@ symlink_scripts() {
     script_home=$HOME/Developer/Scripts
     destination=/usr/local/opt
 
+    sudo mkdir -p $destination
+
     sudo ln -sf $script_home/git-stashfiles $destination
     sudo ln -sf $script_home/git-rebase-origin $destination
+    sudo ln -sf $script_home/git-worktree-branch $destination
 }
 
 echo 'Bootstrapping machine'
