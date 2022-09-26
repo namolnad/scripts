@@ -142,10 +142,11 @@ symlink_customizations() {
     ln -fs $DEV_ENV/.vim $HOME/.vim
     ln -fs $DEV_ENV/Scripts $HOME/Developer/Scripts
     ln -fs $DEV_ENV/.oh-my-zsh/custom/*.zsh $HOME/.oh-my-zsh/custom
-    ln -fs $DEV_ENV/.oh-my-zsh/custom/themes/* $HOME/.oh-my-zsh/custom/themes
-    ln -fs $DEV_ENV/.oh-my-zsh/custom/plugins/* $HOME/.oh-my-zsh/custom/plugins
+    for FILE in $DEV_ENV/.oh-my-zsh/custom/*.zsh; do ln -fs "$FILE" "$HOME/.oh-my-zsh/custom"; done
+    for FILE in $DEV_ENV/.oh-my-zsh/custom/themes/*; do ln -fs "$FILE" "$HOME/.oh-my-zsh/custom/themes"; done
+    for FILE in $DEV_ENV/.oh-my-zsh/custom/plugins/*; do ln -fs "$FILE" "$HOME/.oh-my-zsh/custom/plugins"; done
     ln -fs $DEV_ENV/.bash_profile $HOME/.bash_profile
-    ln -fs $DEV_ENV/.*rc $HOME
+    for FILE in $DEV_ENV/.*rc; do ln -fs "$FILE" "$HOME"; done
 }
 
 symlink_scripts() {
