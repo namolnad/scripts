@@ -11,8 +11,8 @@ Usage:
   -h      - Display this help screen
 
 
-git stashfiles is meant to help you stash a file or set of individual files 
-from a larger change set. Especially useful when git stash -p is too cumbersome 
+git stashfiles is meant to help you stash a file or set of individual files
+from a larger change set. Especially useful when git stash -p is too cumbersome
 (perhaps in a large changeset) and you want to specify exactly which files you stash
 
 Examples:
