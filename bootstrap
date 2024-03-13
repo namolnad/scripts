@@ -139,6 +139,7 @@ symlink_customizations() {
     rm -rf $HOME/.vim $HOME/Developer/Scripts
 
     # Setup symlinks
+    ln -fs $DEV_ENV/.config/* $HOME/.config
     ln -fs $DEV_ENV/.vim $HOME/.vim
     ln -fs $DEV_ENV/Scripts $HOME/Developer/Scripts
     ln -fs $DEV_ENV/.oh-my-zsh/custom/*.zsh $HOME/.oh-my-zsh/custom
