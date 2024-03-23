@@ -140,6 +140,7 @@ symlink_customizations() {
 
     # Setup symlinks
     ln -fs $DEV_ENV/.config/* $HOME/.config
+    ln -fs $DEV_ENV/.tmux.conf $HOME/.tmux.conf
     ln -fs $DEV_ENV/.vim $HOME/.vim
     ln -fs $DEV_ENV/Scripts $HOME/Developer/Scripts
     ln -fs $DEV_ENV/.oh-my-zsh/custom/*.zsh $HOME/.oh-my-zsh/custom
