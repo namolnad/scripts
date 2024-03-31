@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-export DEV_ENV=$HOME/Developer/Environment
+export DOTFILES=$HOME/Developer/dotfiles
 
 clone_dev_environment() {
-    echo "Cloning dev environment into $DEV_ENV"
-    cd $DEV_ENV
+    echo "Cloning dev environment into $DOTFILES"
+    cd $DOTFILES
     if [ $(git rev-parse --is-inside-work-tree) ]; then
         return
     fi
@@ -17,7 +17,7 @@ clone_dev_environment() {
 
 create_directories() {
     echo 'Create custom_credentials directory (if not exists)'
-    mkdir -p $DEV_ENV/.custom_credentials
+    mkdir -p $DOTFILES/.custom_credentials
     mkdir -p $HOME/.rbenv
     mkdir -p $HOME/.ssh
     mkdir -p $HOME/.oh-my-zsh/custom/themes
@@ -76,7 +76,7 @@ prompt_sudo() {
 }
 
 setup_git() {
-    ln -sf $DEV_ENV/.gitconfig $HOME/.gitconfig
+    ln -sf $DOTFILES/.gitconfig $HOME/.gitconfig
 }
 
 setup_non_vim_editors() {
@@ -87,7 +87,7 @@ setup_non_vim_editors() {
 setup_ruby_environment() {
     echo 'Installing rbenv'
     brew install rbenv
-    ln -fs $DEV_ENV/.rbenv/version $HOME/.rbenv
+    ln -fs $DOTFILES/.rbenv/version $HOME/.rbenv
     echo 'Installing global ruby'
     rbenv install -s $(cat ~/.rbenv/version)
     eval "$(rbenv init -)"
@@ -121,7 +121,7 @@ setup_ssh() {
 }
 
 setup_system_settings() {
-    $DEV_ENV/.macOS
+    $DOTFILES/.macOS
 }
 
 setup_vim() {
@@ -139,16 +139,16 @@ symlink_customizations() {
     rm -rf $HOME/.vim $HOME/Developer/Scripts
 
     # Setup symlinks
-    ln -fs $DEV_ENV/.config/* $HOME/.config
-    ln -fs $DEV_ENV/.tmux.conf $HOME/.tmux.conf
-    ln -fs $DEV_ENV/.vim $HOME/.vim
-    ln -fs $DEV_ENV/Scripts $HOME/Developer/Scripts
-    ln -fs $DEV_ENV/.oh-my-zsh/custom/*.zsh $HOME/.oh-my-zsh/custom
-    for FILE in $DEV_ENV/.oh-my-zsh/custom/*.zsh; do ln -fs "$FILE" "$HOME/.oh-my-zsh/custom"; done
-    for FILE in $DEV_ENV/.oh-my-zsh/custom/themes/*; do ln -fs "$FILE" "$HOME/.oh-my-zsh/custom/themes"; done
-    for FILE in $DEV_ENV/.oh-my-zsh/custom/plugins/*; do ln -fs "$FILE" "$HOME/.oh-my-zsh/custom/plugins"; done
-    ln -fs $DEV_ENV/.bash_profile $HOME/.bash_profile
-    for FILE in $DEV_ENV/.*rc; do ln -fs "$FILE" "$HOME"; done
+    ln -fs $DOTFILES/.config/* $HOME/.config
+    ln -fs $DOTFILES/.tmux.conf $HOME/.tmux.conf
+    ln -fs $DOTFILES/.vim $HOME/.vim
+    ln -fs $DOTFILES/Scripts $HOME/Developer/Scripts
+    ln -fs $DOTFILES/.oh-my-zsh/custom/*.zsh $HOME/.oh-my-zsh/custom
+    for FILE in $DOTFILES/.oh-my-zsh/custom/*.zsh; do ln -fs "$FILE" "$HOME/.oh-my-zsh/custom"; done
+    for FILE in $DOTFILES/.oh-my-zsh/custom/themes/*; do ln -fs "$FILE" "$HOME/.oh-my-zsh/custom/themes"; done
+    for FILE in $DOTFILES/.oh-my-zsh/custom/plugins/*; do ln -fs "$FILE" "$HOME/.oh-my-zsh/custom/plugins"; done
+    ln -fs $DOTFILES/.bash_profile $HOME/.bash_profile
+    for FILE in $DOTFILES/.*rc; do ln -fs "$FILE" "$HOME"; done
 }
 
 symlink_scripts() {
