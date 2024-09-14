@@ -2,101 +2,29 @@
 
 export DOTFILES=$HOME/Developer/dotfiles
 
-clone_dev_environment() {
-    echo "Cloning dev environment into $DOTFILES"
-    cd $DOTFILES
-    if [ $(git rev-parse --is-inside-work-tree) ]; then
-        return
-    fi
-    git init
-    git remote add origin git@github.com:namolnad/dev-environment.git
-    git fetch origin
-    git checkout -b master --track origin/master
-    cd -
-}
-
-create_directories() {
-    echo 'Create custom_credentials directory (if not exists)'
-    mkdir -p $DOTFILES/.custom_credentials
-    mkdir -p $HOME/.rbenv
-    mkdir -p $HOME/.ssh
-    mkdir -p $HOME/.oh-my-zsh/custom/themes
-    mkdir -p $HOME/.oh-my-zsh/custom/plugins
-}
-
-display_manual_tasks_remaining() {
-    echo """
-    Tasks remaining:
-    1) Ensure Dropbox syncing is set up
-    2) Point development application settings to \"$HOME/Dropbox/.dev_sync\"
-    3) Grant full disk access to Alfred
-    4) Install GPG Suite; set up GPG signing
-    """
-}
-
-init_submodules() {
-    echo 'Initializing all submodules'
-    git submodule update --init --recursive
-}
-
-install_automator_tasks() {
-    echo 'Installing automator tasks'
-    # TODO: Install tasks from Dans-scripts
-    # See https://apple.stackexchange.com/questions/343258/how-to-deploy-automator-workflow-to-clients for migration tactics
-}
-
-install_dependencies() {
-    echo 'Installing gems'
-    bundle install
-    echo 'Running brew bundle'
-    brew bundle
-    echo 'Installing FZF'
-    yes | $(brew --prefix)/opt/fzf/install
-    echo 'Installing Oh My Zsh'
-    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-}
-
-install_homebrew() {
-    echo 'Checking if homebrew is installed'
-    if ! [ -x "$(command -v brew)" ]; then
-        echo 'Installing homebrew'
-        PATH="/opt/homebrew/bin:$PATH"
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        if [ -f /opt/homebrew/bin/brew ]; then
-            eval "$(/opt/homebrew/bin/brew shellenv)"
-        fi
-    fi
-}
-
-prompt_sudo() {
+1_prompt_sudo() {
     sudo -v
 
     # Keep-alive: update existing `sudo` time stamp until `.osx` has finished
     while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 }
 
-setup_git() {
+2_create_directories() {
+    echo 'Create custom_credentials directory (if not exists)'
+    mkdir -p $DOTFILES/.custom_credentials
+    mkdir -p $HOME/.rbenv
+    mkdir -p $HOME/.ssh
+    mkdir -p $HOME/.oh-my-zsh/custom/themes
+    mkdir -p $HOME/.oh-my-zsh/custom/plugins
+    mkdir -p $HOME/.tmux/plugins
+    mkdir -p $HOME/.tmux/resurrect
+}
+
+3_setup_git() {
     ln -sf $DOTFILES/.gitconfig $HOME/.gitconfig
 }
 
-setup_non_vim_editors() {
-    echo 'Installing TabNine for VSCode'
-    # TODO: Install TabNine (also for vscode)
-}
-
-setup_ruby_environment() {
-    echo 'Installing rbenv'
-    brew install rbenv
-    ln -fs $DOTFILES/.rbenv/version $HOME/.rbenv
-    echo 'Installing global ruby'
-    rbenv install -s $(cat ~/.rbenv/version)
-    eval "$(rbenv init -)"
-    echo 'Installing bundler'
-    gem install bundler
-    rbenv rehash
-}
-
-setup_ssh() {
+4_setup_ssh() {
     if [[ ! $(ls -A "$HOME/.ssh") ]]; then
         git_user=$(git config --get user.email)
         if [ -z "$git_user" ]; then read -r -p 'Enter your git email: ' git_user; fi
@@ -120,21 +48,20 @@ setup_ssh() {
     fi
 }
 
-setup_system_settings() {
-    $DOTFILES/.macOS
+5_clone_dotfiles() {
+    echo "Cloning dotfiles into $DOTFILES"
+    cd $DOTFILES
+    if [ $(git rev-parse --is-inside-work-tree) ]; then
+        return
+    fi
+    git init
+    git remote add origin git@github.com:namolnad/dotfiles.git
+    git fetch origin
+    git checkout -b master --track origin/master
+    cd -
 }
 
-setup_vim() {
-    # TODO: Evaluate whether MacVim should be used along with iCompleteMe (and remove vim from Brewfile is so)
-    # MacVim install
-    # Move mvim script to /usr/local/bin
-    # Symlink mvim script to vim
-    #####
-    # Install plugins
-    vim -c 'PluginInstall' -c 'qa!'
-}
-
-symlink_customizations() {
+6_symlink_customizations() {
     # Remove existing directory symlinks if exists
     rm -rf $HOME/.vim $HOME/Developer/Scripts
 
@@ -151,7 +78,44 @@ symlink_customizations() {
     for FILE in $DOTFILES/.*rc; do ln -fs "$FILE" "$HOME"; done
 }
 
-symlink_scripts() {
+7_install_homebrew() {
+    echo 'Checking if homebrew is installed'
+    if ! [ -x "$(command -v brew)" ]; then
+        echo 'Installing homebrew'
+        PATH="/opt/homebrew/bin:$PATH"
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        if [ -f /opt/homebrew/bin/brew ]; then
+            eval "$(/opt/homebrew/bin/brew shellenv)"
+        fi
+    fi
+}
+
+8_setup_ruby_environment() {
+    echo 'Installing rbenv'
+    brew install rbenv
+    ln -fs $DOTFILES/.rbenv/version $HOME/.rbenv
+    echo 'Installing global ruby'
+    rbenv install -s $(cat ~/.rbenv/version)
+    eval "$(rbenv init -)"
+    echo 'Installing bundler'
+    gem install bundler
+    rbenv rehash
+}
+
+9_install_dependencies() {
+    echo 'Installing gems'
+    bundle install
+    echo 'Running brew bundle'
+    brew bundle
+    echo 'Installing FZF'
+    yes | $(brew --prefix)/opt/fzf/install
+    echo 'Installing Oh My Zsh'
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    echo 'Cloning tmux plugin manager'
+    git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
+}
+
+10_symlink_scripts() {
     script_home=$HOME/Developer/Scripts
     destination=/usr/local/opt
 
@@ -162,21 +126,45 @@ symlink_scripts() {
     sudo ln -sf $script_home/git-worktree-branch $destination
 }
 
+11_setup_system_settings() {
+    $DOTFILES/.macOS
+}
+
+12_init_submodules() {
+    echo 'Initializing all submodules'
+    git submodule update --init --recursive
+}
+
+13_install_automator_tasks() {
+    echo 'Installing automator tasks'
+    # TODO: Install tasks from Dans-scripts
+    # See https://apple.stackexchange.com/questions/343258/how-to-deploy-automator-workflow-to-clients for migration tactics
+}
+
+14_display_manual_tasks_remaining() {
+    echo """
+    Tasks remaining:
+    1) Ensure Dropbox syncing is set up
+    2) Point development application settings to \"$HOME/Dropbox/.dev_sync\"
+    3) Grant full disk access to Alfred
+    4) Install GPG Suite; set up GPG signing
+    """
+}
+
 echo 'Bootstrapping machine'
 
 # NOTE: Order is important
-prompt_sudo
-create_directories
-setup_git
-setup_ssh
-clone_dev_environment
-symlink_customizations
-install_homebrew
-setup_ruby_environment
-install_dependencies
-symlink_scripts
-setup_system_settings
-init_submodules
-install_automator_tasks
-setup_non_vim_editors
-display_manual_tasks_remaining
+1_prompt_sudo
+2_create_directories
+3_setup_git
+4_setup_ssh
+5_clone_dotfiles
+6_symlink_customizations
+7_install_homebrew
+8_setup_ruby_environment
+9_install_dependencies
+10_symlink_scripts
+11_setup_system_settings
+12_init_submodules
+13_install_automator_tasks
+14_display_manual_tasks_remaining
