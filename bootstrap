@@ -107,6 +107,8 @@ export DOTFILES=$HOME/Developer/dotfiles
     bundle install
     echo 'Running brew bundle'
     brew bundle
+    echo 'Starting services'
+    brew services start --all
     echo 'Installing FZF'
     yes | $(brew --prefix)/opt/fzf/install
     echo 'Installing Oh My Zsh'
