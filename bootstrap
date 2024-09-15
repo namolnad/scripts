@@ -75,7 +75,7 @@ export DOTFILES=$HOME/Developer/dotfiles
     echo 'Running brew bundle'
     brew bundle
     echo 'Symlinking dotfiles'
-    stow config -t $HOME
+    stow --ignore "\.DS_Store" config -t $HOME
     echo 'Starting services'
     brew services start --all
     echo 'Installing FZF'
