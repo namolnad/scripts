@@ -42,7 +42,7 @@ export DOTFILES=$HOME/Developer/dotfiles
     git init
     git remote add origin git@github.com:namolnad/dotfiles.git
     git fetch origin
-    git checkout -b master --track origin/master
+    git checkout -b main --track origin/main
     cd -
 }
 
@@ -61,9 +61,8 @@ export DOTFILES=$HOME/Developer/dotfiles
 5_setup_ruby_environment() {
     echo 'Installing rbenv'
     brew install rbenv
-    ln -fs $DOTFILES/.rbenv/version $HOME/.rbenv
     echo 'Installing global ruby'
-    rbenv install -s $(cat ~/.rbenv/version)
+    rbenv install -s $(cat $DOTFILES/config/.rbenv/version)
     eval "$(rbenv init -)"
     echo 'Installing bundler'
     gem install bundler
@@ -83,14 +82,18 @@ export DOTFILES=$HOME/Developer/dotfiles
     yes | $(brew --prefix)/opt/fzf/install
     echo 'Installing Oh My Zsh'
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    echo 'Installing zsh plugins'
+    git clone https://github.com/mroth/evalcache ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/evalcache
     echo 'Cloning tmux plugin manager'
     git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
-    echo 'Installing PJs'
-    tmp_dir=$(mktemp -d)
-    curl -fsSL -o $tmp_dir/PJs.zip https://github.com/acrookston/pjs/releases/download/v1.0.0/PJs.zip $tmp_dir
-    unzip $tmp_dir/PJs.zip -d $tmp_dir
-    mv $tmp_dir/PJs.app /Applications/
-    rm -rf $tmp_dir
+    if [ ! -d "/Applications/PJs.app" ]; then
+        echo 'Installing PJs'
+        tmp_dir=$(mktemp -d)
+        curl -fsSL -o $tmp_dir/PJs.zip https://github.com/acrookston/pjs/releases/download/v1.0.0/PJs.zip $tmp_dir
+        unzip $tmp_dir/PJs.zip -d $tmp_dir
+        mv $tmp_dir/PJs.app /Applications/
+        rm -rf $tmp_dir
+    fi
 }
 
 7_symlink_scripts() {
