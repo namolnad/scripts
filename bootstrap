@@ -9,22 +9,7 @@ export DOTFILES=$HOME/Developer/dotfiles
     while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 }
 
-2_create_directories() {
-    echo 'Create custom_credentials directory (if not exists)'
-    mkdir -p $DOTFILES/.custom_credentials
-    mkdir -p $HOME/.rbenv
-    mkdir -p $HOME/.ssh
-    mkdir -p $HOME/.oh-my-zsh/custom/themes
-    mkdir -p $HOME/.oh-my-zsh/custom/plugins
-    mkdir -p $HOME/.tmux/plugins
-    mkdir -p $HOME/.tmux/resurrect
-}
-
-3_setup_git() {
-    ln -sf $DOTFILES/.gitconfig $HOME/.gitconfig
-}
-
-4_setup_ssh() {
+2_setup_ssh() {
     if [[ ! $(ls -A "$HOME/.ssh") ]]; then
         git_user=$(git config --get user.email)
         if [ -z "$git_user" ]; then read -r -p 'Enter your git email: ' git_user; fi
@@ -48,7 +33,7 @@ export DOTFILES=$HOME/Developer/dotfiles
     fi
 }
 
-5_clone_dotfiles() {
+3_clone_dotfiles() {
     echo "Cloning dotfiles into $DOTFILES"
     cd $DOTFILES
     if [ $(git rev-parse --is-inside-work-tree) ]; then
@@ -61,24 +46,7 @@ export DOTFILES=$HOME/Developer/dotfiles
     cd -
 }
 
-6_symlink_customizations() {
-    # Remove existing directory symlinks if exists
-    rm -rf $HOME/.vim $HOME/Developer/Scripts
-
-    # Setup symlinks
-    ln -fs $DOTFILES/.config/* $HOME/.config
-    ln -fs $DOTFILES/.tmux.conf $HOME/.tmux.conf
-    ln -fs $DOTFILES/.vim $HOME/.vim
-    ln -fs $DOTFILES/Scripts $HOME/Developer/Scripts
-    ln -fs $DOTFILES/.oh-my-zsh/custom/*.zsh $HOME/.oh-my-zsh/custom
-    for FILE in $DOTFILES/.oh-my-zsh/custom/*.zsh; do ln -fs "$FILE" "$HOME/.oh-my-zsh/custom"; done
-    for FILE in $DOTFILES/.oh-my-zsh/custom/themes/*; do ln -fs "$FILE" "$HOME/.oh-my-zsh/custom/themes"; done
-    for FILE in $DOTFILES/.oh-my-zsh/custom/plugins/*; do ln -fs "$FILE" "$HOME/.oh-my-zsh/custom/plugins"; done
-    ln -fs $DOTFILES/.bash_profile $HOME/.bash_profile
-    for FILE in $DOTFILES/.*rc; do ln -fs "$FILE" "$HOME"; done
-}
-
-7_install_homebrew() {
+4_install_homebrew() {
     echo 'Checking if homebrew is installed'
     if ! [ -x "$(command -v brew)" ]; then
         echo 'Installing homebrew'
@@ -90,7 +58,7 @@ export DOTFILES=$HOME/Developer/dotfiles
     fi
 }
 
-8_setup_ruby_environment() {
+5_setup_ruby_environment() {
     echo 'Installing rbenv'
     brew install rbenv
     ln -fs $DOTFILES/.rbenv/version $HOME/.rbenv
@@ -102,11 +70,13 @@ export DOTFILES=$HOME/Developer/dotfiles
     rbenv rehash
 }
 
-9_install_dependencies_and_apps() {
+6_install_applications() {
     echo 'Installing gems'
     bundle install
     echo 'Running brew bundle'
     brew bundle
+    echo 'Symlinking dotfiles'
+    stow config -t $HOME
     echo 'Starting services'
     brew services start --all
     echo 'Installing FZF'
@@ -123,7 +93,8 @@ export DOTFILES=$HOME/Developer/dotfiles
     rm -rf $tmp_dir
 }
 
-10_symlink_scripts() {
+7_symlink_scripts() {
+    echo 'Symlinking scripts'
     script_home=$HOME/Developer/Scripts
     destination=/usr/local/opt
 
@@ -134,22 +105,17 @@ export DOTFILES=$HOME/Developer/dotfiles
     sudo ln -sf $script_home/git-worktree-branch $destination
 }
 
-11_setup_system_settings() {
+8_setup_system_settings() {
+    echo 'Setting up system settings'
     $DOTFILES/.macOS
 }
 
-12_init_submodules() {
+9_init_submodules() {
     echo 'Initializing all submodules'
     git submodule update --init --recursive
 }
 
-13_install_automator_tasks() {
-    echo 'Installing automator tasks'
-    # TODO: Install tasks from Dans-scripts
-    # See https://apple.stackexchange.com/questions/343258/how-to-deploy-automator-workflow-to-clients for migration tactics
-}
-
-14_display_manual_tasks_remaining() {
+10_display_manual_tasks_remaining() {
     echo """
     Tasks remaining:
     1) Ensure Dropbox syncing is set up
@@ -163,16 +129,12 @@ echo 'Bootstrapping machine'
 
 # NOTE: Order is important
 1_prompt_sudo
-2_create_directories
-3_setup_git
-4_setup_ssh
-5_clone_dotfiles
-6_symlink_customizations
-7_install_homebrew
-8_setup_ruby_environment
-9_install_dependencies_and_apps
-10_symlink_scripts
-11_setup_system_settings
-12_init_submodules
-13_install_automator_tasks
-14_display_manual_tasks_remaining
+2_setup_ssh
+3_clone_dotfiles
+4_install_homebrew
+5_setup_ruby_environment
+6_install_applications
+7_symlink_scripts
+8_setup_system_settings
+9_init_submodules
+10_display_manual_tasks_remaining
