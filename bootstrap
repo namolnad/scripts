@@ -85,6 +85,7 @@ export DOTFILES=$HOME/Developer/dotfiles
     echo 'Installing zsh plugins'
     git clone https://github.com/mroth/evalcache ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/evalcache
     git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
+    git clone https://github.com/Aloxaf/fzf-tab ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
     echo 'Cloning tmux plugin manager'
     git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
     if [ ! -d "/Applications/PJs.app" ]; then
