@@ -23,7 +23,7 @@ export DOTFILES=$HOME/Developer/dotfiles
         echo 'Your ssh public key has been copied to the keyboard. Confirm when you have entered the key in GitHub (y)'
         while : ; do
             read -n 1 k <&1
-            if [[ $k = y ]] ; then
+            if [[ $k = 'y' ]] ; then
                 printf "\nContinuing setup\n"
                 break
             else
